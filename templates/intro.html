@@ -1,0 +1,143 @@
+{% extends "base.html" %} {% block content %}
+<div class="sparky-message typing-animation" id="welcome-message">
+  [SPARKY]:~# Access granted to {{ flag }}
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message1"
+  style="display: none"
+>
+  [SPARKY]:~# For years, they told us it was just a myth...
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message2"
+  style="display: none"
+>
+  [SPARKY]:~# The source ledger. The master currency that controls every
+  transaction across a thousand worlds.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message3"
+  style="display: none"
+>
+  [SPARKY]:~# Every credit, every trade, every purchase flows through this
+  single point.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message4"
+  style="display: none"
+>
+  [SPARKY]:~# Ultimate centralized control. Ultimate power.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message6"
+  style="display: none"
+>
+  [SPARKY]:~# Congrats, you've found a gateway to the source ledger
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message7"
+  style="display: none"
+>
+  [SPARKY]:~# Located deep within Sovereignty Central Command.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message8"
+  style="display: none"
+>
+  [SPARKY]:~# It's a brutalist nightmare of authoritarian security.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message9"
+  style="display: none"
+>
+  [SPARKY]:~# We need to get past their defenses.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message9"
+  style="display: none"
+>
+  [SPARKY]:~# I've managed to get user level access from our last mission.
+</div>
+
+<div
+  class="sparky-message typing-animation"
+  id="message10"
+  style="display: none"
+>
+  [SPARKY]:~# This is just the beginning. Ready to break their economic
+  stranglehold?
+</div>
+
+<div
+  class="login-area"
+  id="login-button"
+  style="display: none; margin-top: 20px"
+>
+  <a href="{{ url_for('login') }}" class="terminal-button">Access Gateway</a>
+</div>
+
+{% endblock %} {% block scripts %} {{ super() }}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const messages = [
+      document.getElementById("welcome-message"),
+      document.getElementById("message1"),
+      document.getElementById("message2"),
+      document.getElementById("message3"),
+      document.getElementById("message4"),
+      document.getElementById("message5"),
+      document.getElementById("message6"),
+      document.getElementById("message7"),
+      document.getElementById("message8"),
+      document.getElementById("message9"),
+      document.getElementById("message10"),
+      document.getElementById("login-button"),
+    ];
+
+    function showNextMessage(index) {
+      if (index < messages.length) {
+        if (index > 0) {
+          messages[index].style.display = "block";
+        }
+
+        if (messages[index].classList.contains("typing-animation")) {
+          // Get text content and clear it for typing effect
+          const text = messages[index].textContent;
+          messages[index].textContent = "";
+
+          // Start typing effect
+          typeWriter(messages[index], text, 30);
+
+          messages[index].addEventListener("typingComplete", function () {
+            setTimeout(() => showNextMessage(index + 1), 1000);
+          });
+        } else {
+          messages[index].style.display = "block";
+          setTimeout(() => showNextMessage(index + 1), 1000);
+        }
+      }
+    }
+
+    // Start the sequence
+    showNextMessage(0);
+  });
+</script>
+{% endblock %}
