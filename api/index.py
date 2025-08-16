@@ -218,4 +218,4 @@ def execute_transaction():
                               invalid_attempt=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
