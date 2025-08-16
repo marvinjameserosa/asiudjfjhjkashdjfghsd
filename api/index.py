@@ -4,6 +4,7 @@ import os
 import hashlib
 import secrets
 from functools import wraps
+import traceback #
 
 # --- Flask App Initialization ---
 # This tells Flask where to find your HTML templates and static files (CSS, JS)
@@ -62,14 +63,24 @@ def challenge_access(level):
 
 @app.route('/')
 def index():
-    if 'logged_in' in session:
-        level = session.get('challenge_level', 1)
-        # If logged in, send them directly to the correct challenge page
-        return redirect(url_for(f'challenge{level}_page'))
+    try:
+        if 'logged_in' in session:
+            level = session.get('challenge_level', 1)
+            # If logged in, send them directly to the correct challenge page
+            return redirect(url_for(f'challenge{level}_page'))
+
+        # If not logged in, show the main index/login page
+        return render_template('index.html', flag=FLAGS['intro'])
     
-    # If not logged in, show the main index/login page
-    # Pass the introductory flag to the template
-    return render_template('index.html', flag=FLAGS['intro'])
+    except Exception as e:
+        # This is our debug trap. It will catch any error.
+        # It prints the full, detailed error traceback to your Vercel logs.
+        print("--- AN EXCEPTION OCCURRED IN THE INDEX ROUTE ---")
+        traceback.print_exc()
+        print("-------------------------------------------------")
+        
+        # Return a simple error message to the browser
+        return "An internal server error occurred. Please check the Vercel logs.", 500
 
 @app.route('/challenge1')
 @login_required
