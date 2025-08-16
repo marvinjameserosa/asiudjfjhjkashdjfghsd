@@ -11,7 +11,7 @@ import traceback #
 # since they are in the root directory, one level above this 'api' folder.
 app = Flask(
     __name__,
-    template_folder='../templates',
+    template_folder='../template',
     static_folder='../public',
     static_url_path='/public'  # The URL path to serve static files from
 )
